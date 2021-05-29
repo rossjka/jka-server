@@ -1,0 +1,9 @@
+[Unit]
+Description=Start the JKA server.
+
+[Service]
+User=jka-server
+ExecStart=/home/jka-server/server/wrap-start-server.sh
+
+[Install]
+WantedBy=multi-user.target

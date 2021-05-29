@@ -1,0 +1,42 @@
+#!/bin/bash
+filepath=/usr/local/games/jka4/log.txt #/path/to/file - enter path to log file usr/games/jka/log.txt fx
+apikey=MTI5NDQ6M0JtWk1RbTBpUXYwbTJuUjQ5aFVVZktKamRCTk9oWkM= #enter your apikey to iphub.info
+#databasepath=/path/to/db - if you want to use another DB -- check notes below
+now=$(date +"%T")
+currentTime="date +%T"
+connectionLineFormat="(SV\spacket)\s([0-9]+.[0-9]+.[0-9]+.[0-9]+:[-0-9]+)\s:\s(connect)"
+echo "VPN monitor - developed by devon"
+echo "version 0.9 - 2/5-21"
+echo "Attaching to log"
+echo "`$currentTime` success : now actively  monitoring and banning  VPN's"
+#printf '\xFF\xFF\xFF\xFFrcon ZenV2 dumpuser *\n' | nc -u -n -w 1 135.125.161.246 29071 | sed -ne ':x;/\xFF/{N;s/\xFF\xFF\xFF\xFFprint\n//;tx};/^$/d;p'
+tail -fn0 "$filepath" | 
+while read line ; do
+	echo "`$currentTime` new connection request received: $line" | grep -E "$connectionLineFormat"
+	if [ $? = 0 ] #todo: add some sort of check so say commands won't be executed if they match connectFormat
+        then
+		IFS=': '
+		read -a strarr <<< "$line"
+		result=$(sqlite3 jka2database.sqlite "SELECT ip from iplist where ip='${strarr[2]}'") #replace jkadb.sqlite with $databasepath + quotationmarks if you want to use another db
+			if [ -z "$result" ]
+			then
+			echo "`$currentTime` ${strarr[2]} : was not found in database"
+			echo "`$currentTime` ${strarr[2]} : checking for VPN"
+			response=$(curl -s http://v2.api.iphub.info/ip/"${strarr[2]}" -H "X-Key: $apikey")
+			echo "`$currentTime` ${strarr[2]} : $response"
+				if [[ "$response" =~ '"block":0' ]];
+				then
+					echo "`$currentTime` ${strarr[2]} : no VPN detected"
+					sqlite3 jka2database.sqlite "INSERT INTO iplist(ip, vpn) VALUES ('${strarr[2]}', 0)" #replace jkadb.sqlite with $databasepath + quotationmarks if you want to use another db
+					echo "`$currentTime` ${strarr[2]} : added & allowed"
+				elif [[ "$response" =~ '"block":1' || "$response" =~ '"block":2' ]]
+				then 
+					echo "`$currentTime` ${strarr[2]} : VPN detected"
+					sudo iptables -w -I INPUT -s "${strarr[2]}" -j DROP
+					echo "`$currentTime` ${strarr[2]} : has been blacklisted."
+				else	
+					echo "invalid input, doing nothing"
+				fi
+   			fi
+  	fi
+done
