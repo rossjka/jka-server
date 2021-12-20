@@ -44,9 +44,20 @@ You might like this if you:
 - Yberion Proxy Base
   - `cd servers/yberion-proxy`
 
+### Edit server.cfg
+There's a server.cfg file in the current directory. You can either change it here, or change it post-install at `/home/jka-server/server/base/server.cfg.`
+
 ### Install the server:
 1. `chmod +x install.sh`
 0. `sudo ./install.sh`
 
 ### Wrapping up
 If all went, well, there should be an unlisted JKA server running on your machine. If your server / cloud firewall settings are setup to allow UDP traffic to instances on port 29070, then you should be able to connect to your server at your-server-ip:29070.
+
+- Restart server: `sudo systemctl restart jka-server`
+- Stop server: `sudo systemctl stop jka-server`
+- Start server `sudo systemctl start jka-server`
+
+### TODO:
+- Automatic setup of VPNMonitor
+- Automatic setup of cronjobs to restart server daily
