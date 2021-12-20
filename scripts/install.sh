@@ -24,6 +24,7 @@ useradd jka-server -s /bin/bash -p '*'
 # Create some initial directories for the user
 mkdir /home/jka-server/
 mkdir /home/jka-server/server/
+cp -R ../vpnmonitor /home/jka-server/vpnmonitor
 
 # Set ownership of all files in those directories to the new user
 chown -R jka-server /home/jka-server/
@@ -32,7 +33,7 @@ chown -R jka-server /home/jka-server/
 usermod -aG sudo jka-server
 
 # Allow user to call iptables without a password when using sudo (VPNMonitor)
-echo 'jka-server ALL=(ALL:ALL) NOPASSWD:/usr/sbin/ipables' | sudo EDITOR='tee -a' visudo
+echo 'jka-server ALL=(ALL:ALL) NOPASSWD:/usr/sbin/iptables' | sudo EDITOR='tee -a' visudo
 
 # Done
 exit

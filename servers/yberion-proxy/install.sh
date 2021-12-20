@@ -2,7 +2,7 @@
 
 # Run this script as root or with sudo
 #
-# This script will install a vanilla base server in /home/jka-server/server
+# This script will install a yberion base server in /home/jka-server/server
 
 echo "Copying asset files, this could take 1-2 minutes"
 
@@ -22,4 +22,4 @@ chown -R jka-server /home/jka-server/server/
 systemctl enable jka-server
 systemctl start jka-server
 
-echo "Vanilla base server installed."
+echo "Yberion Proxy base server installed."
