@@ -8,6 +8,7 @@ while true; do
     esac
 done
 read -p "Enter an API key if you would like to set up VPN protection (otherwise just hit enter): " apikey
+read -p "Enter URL to download assets.tgz: " assets
 
 apt-get install wget
 
