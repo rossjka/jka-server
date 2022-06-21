@@ -1,4 +1,3 @@
-read -p "Do you want yberion proxy?" proxy
 while true; do
     read -p "Do you want yberion proxy on this server? y/n" yn
     case $yn in
@@ -19,26 +18,29 @@ cd ../assets
 wget $assets -O assets.tgz
 tar -xf assets.tgz
 rm assets.tgz
-cd ..
 
 if [ "$proxy" = "true" ]; then
-  cd servers/yberion-proxy
+  echo "Installing ybeproxy server"
+  cd ../servers/yberion-proxy
 else
-  cd servers/vanilla
+  echo "Installing pure server (no proxy)"
+  cd ../servers/vanilla
 fi
 chmod +x install.sh
 ./install.sh
-echo "JKA service installed; start with 'sudo systemctl start jka-server'"
+echo "JKA service installed"
 
 if [ ! -z "$apikey" ]; then
   cd ../../vpnmonitor
   sed 's/yourapikey/$apikey' vpnmonitor
   chmod +x install-vpnmonitor.sh 
   ./install-vpnmonitor.sh
-  cd ../systemd
-  cp vpnmonitor.service /etc/systemd/system/
+  cp ../systemd/vpnmonitor.service /etc/systemd/system/
   systemctl enable vpnmonitor
-  echo "VPN service installed; start with 'sudo systemctl start vpnmonitor'"
+  echo "VPN service installed"
+  systemctl start vpnmonitor
 fi
 
+cd /home/jka-server/server/base
 echo -e "Installation complete"
+return 0
