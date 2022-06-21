@@ -1,5 +1,5 @@
 while true; do
-    read -p "Do you want yberion proxy on this server? y/n" yn
+    read -p "Do you want yberion proxy on this server? y/n: " yn
     case $yn in
         [Yy] ) proxy=true;;
         [Nn] ) proxy=false;;
