@@ -1,8 +1,10 @@
+#!/bin/bash
+
 while true; do
     read -p "Do you want yberion proxy on this server? y/n: " yn
     case $yn in
-        [Yy] ) proxy=true;;
-        [Nn] ) proxy=false;;
+        [Yy] ) proxy=true; break;;
+        [Nn] ) proxy=false; break;;
         * ) echo "Please answer with y (yes) or n (no)";;
     esac
 done
