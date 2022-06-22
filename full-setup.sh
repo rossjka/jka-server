@@ -1,4 +1,5 @@
 #!/bin/bash
+SCRIPT_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 
 while true; do
     read -p "Do you want yberion proxy on this server? y/n: " yn
@@ -35,11 +36,12 @@ echo "JKA service installed"
 echo -e "======================\n\n"
 
 if [ ! -z "$apikey" ]; then
-  cd ../../vpnmonitor
+  cp -R ../../vpnmonitor /home/jka-server
+  cd /home/jka-server/vpnmonitor
   sed -i "s/yourapikey/$apikey/" vpnmonitor
   chmod +x install-vpnmonitor.sh 
   ./install-vpnmonitor.sh
-  cp ../systemd/vpnmonitor.service /etc/systemd/system/
+  cp "$SCRIPT_DIR/systemd/vpnmonitor.service" /etc/systemd/system/
   systemctl enable vpnmonitor
   echo -e "\n\n======================"
   echo "VPN service installed"
