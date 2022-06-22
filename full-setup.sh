@@ -51,7 +51,5 @@ else
   vpnstatus="VPN Monitor was not installed"
 fi
 
-cd /home/jka-server/server/base
-echo -e "Installation complete! Server type is $servertype and $vpnconfirmation. To edit cfg, cd /home/jka-server/server/base"
-
+echo -e "Installation complete! Server type is $servertype and $vpnstatus. To edit cfg, cd /home/jka-server/server/base"
 exit 0
