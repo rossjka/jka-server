@@ -3,7 +3,7 @@ Description=Start VPNMonitor
 
 [Service]
 User=jka-server
-ExecStart=/home/jka-server/vpnmonitor
+ExecStart=/home/jka-server/vpnmonitor/vpnmonitor
 
 [Install]
 WantedBy=multi-user.target
