@@ -36,7 +36,7 @@ echo -e "======================\n\n"
 
 if [ ! -z "$apikey" ]; then
   cd ../../vpnmonitor
-  sed 's/yourapikey/$apikey' vpnmonitor
+  sed -i "s/yourapikey/$apikey/" vpnmonitor
   chmod +x install-vpnmonitor.sh 
   ./install-vpnmonitor.sh
   cp ../systemd/vpnmonitor.service /etc/systemd/system/
@@ -52,6 +52,6 @@ else
 fi
 
 cd /home/jka-server/server/base
-echo -e "Installation complete! Server type is $servertype and $vpnconfirmation"
+echo -e "Installation complete! Server type is $servertype and $vpnconfirmation. To edit cfg, cd /home/jka-server/server/base"
 
 exit 0
